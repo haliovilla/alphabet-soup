@@ -6,25 +6,31 @@
   </div>
   <div class="col-md-8 col-sm-12 mx-auto"
        *ngIf="!loading">
-    <div class="form-group">
-      <label for="SoupSize">
-        Tamaño de la Matríz
-      </label>
-      <input type="number"
-             class="form-control"
-             id="SoupSize"
-             [(ngModel)]="size"
-             placeholder="Tamaño de la Matríz" />
-    </div>
-    <div class="form-group">
-      <label for="WordToFind">
-        Palabra a Buscar
-      </label>
-      <input type="text"
-             class="form-control"
-             id="WordToFind"
-             [(ngModel)]="word"
-             placeholder="Palabra a Buscar" />
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="SoupSize">
+            Tamaño de la Matríz
+          </label>
+          <input type="number"
+                 class="form-control"
+                 id="SoupSize"
+                 [(ngModel)]="size"
+                 placeholder="Tamaño de la Matríz" />
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+          <label for="WordToFind">
+            Palabra a Buscar
+          </label>
+          <input type="text"
+                 class="form-control"
+                 id="WordToFind"
+                 [(ngModel)]="word"
+                 placeholder="Palabra a Buscar" />
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <label for="AlphabetSoup">
@@ -37,15 +43,36 @@
                 placeholder="Sopa de Letras"></textarea>
     </div>
 
-    <div class="text-center soup">
-      <!--<pre>{{ soup }}</pre>-->
-    </div>
-
     <hr />
 
-    <button class="btn btn-primary btn-lg"
+    <button class="btn btn-primary btn-lg validate-button"
             (click)="validate()">
       Validar
     </button>
+
+    <br />
+    <hr />
+    <br />
+
+    <button class="btn btn-secondary"
+            (click)="switchCollapse()">
+      Ver Resultados
+    </button>
+    <div [ngClass]="{'collapse': collapse}">
+      <h2>Resultados</h2>
+      <hr />
+      <ul class="list-group">
+        <li class="list-group-item"
+            *ngFor="let result of results">
+          {{ result.Word }}
+          &nbsp;
+          <span *ngIf="result.WordExists">SI</span>
+          <span *ngIf="!result.WordExists">NO</span>
+          &nbsp;
+          existe.
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>

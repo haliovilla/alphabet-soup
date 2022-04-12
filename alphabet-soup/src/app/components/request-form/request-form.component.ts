@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { sopa } from '../../data/default-data';
+import { ciertas, falsas, sopa } from '../../data/default-data';
 import { AlphabetModel } from '../../models/alphabet-model';
 import { ApiResult } from '../../models/api-result';
 import { AlphabetService } from '../../services/alphabet.service';
@@ -16,11 +16,14 @@ export class RequestFormComponent implements OnInit {
   size: number = sopa.length;
 
   loading: boolean = false;
+  collapse: boolean = true;
+  results: ApiResult[] = [];
 
   constructor(private alphabetService: AlphabetService) { }
 
   ngOnInit(): void {
     this.createSoup();
+    this.validateAllWords();
   }
 
   createSoup() {
@@ -43,7 +46,7 @@ export class RequestFormComponent implements OnInit {
     this.alphabetService.validateIfWordExists(data)
       .subscribe((response: ApiResult) => {
         if (response) {
-          alert(JSON.stringify(response));
+          this.results.push(response);
         }
         this.loading = false;
       }, (err) => {
@@ -52,8 +55,44 @@ export class RequestFormComponent implements OnInit {
       });
   }
 
+  validateWord(value: string) {
+    const data: AlphabetModel = {
+      AlphabetSoup: this.createStringsArray(),
+      WordToFind: value,
+      SoupSize: this.size
+    };
+    this.alphabetService.validateIfWordExists(data)
+      .subscribe((response: ApiResult) => {
+        if (response) {
+          this.results.push(response);
+        }
+      }, (err) => {
+        console.log(err);
+        alert(JSON.stringify(err));
+      });
+  }
+
   createStringsArray(): string[] {
     return this.soup.split('\n');
+  }
+
+  switchCollapse() {
+    this.collapse = !this.collapse;
+  }
+
+  validateAllWords() {
+    let allWords: string[] = [];
+    ciertas.forEach(w => {
+      allWords.push(w);
+    });
+    falsas.forEach(w => {
+      allWords.push(w);
+    });
+    this.loading = true;
+    allWords.forEach(value => {
+      this.validateWord(value);
+    });
+    this.loading = false;
   }
 
 }
