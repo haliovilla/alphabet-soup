@@ -30,8 +30,34 @@ namespace Alphabet_API.Controllers
 
         private ValidationResult Validate(AlphabetModel data)
         {
-            var result = new ValidationResult();
+            var soup = CreateAlphabetSoup(data.SoupSize, data.AlphabetSoup);
+            var result = new ValidationResult(data.WordToFind, true);
             return result;
+        }
+
+        private char[,] CreateAlphabetSoup(int size, List<string> soup)
+        {
+            var result = new char[size, size];
+            int i = 0;
+            try
+            {
+                foreach (string line in soup)
+                {
+                    int j = 0;
+                    foreach (char letter in line)
+                    {
+                        result[i, j] = letter;
+                        j++;
+                    }
+                    i++;
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+
+            return result;   
         }
     }
 }

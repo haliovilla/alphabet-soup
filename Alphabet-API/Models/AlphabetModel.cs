@@ -11,10 +11,14 @@ namespace Alphabet_API.Models
     {
         [Required]
         [JsonProperty("AlphabetSoup")]
-        public string[,] AlphabetSoup { get; set; }
+        public List<string> AlphabetSoup { get; set; }
 
         [Required]
         [JsonProperty("WordToFind")]
         public string WordToFind { get; set; }
+
+        [Required]
+        [JsonProperty("SoupSize")]
+        public int SoupSize { get; set; }
     }
 }
