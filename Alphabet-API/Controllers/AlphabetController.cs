@@ -81,69 +81,56 @@ namespace Alphabet_API.Controllers
             string direction = "";
             string invertedWord = new string(word.Reverse().ToArray());
 
-            //if (RegularHorizontalSearch(word))
-            //{
-            //    exists = true;
-            //    direction = Directions.Horizontal;
-            //}
-                
+            if (RegularHorizontalSearch(word))
+            {
+                return new ValidationResult(word, true, Directions.Horizontal);
+            }
 
-            //if (RegularHorizontalSearch(invertedWord))
-            //{
-            //    exists = true;
-            //    direction = Directions.InvertedHorizontal;
-            //}
 
-            //if (RegularVerticalSearch(word))
-            //{
-            //    exists = true;
-            //    direction = Directions.Vertical;
-            //}
+            if (RegularHorizontalSearch(invertedWord))
+            {
+                return new ValidationResult(word, true, Directions.InvertedHorizontal);
+            }
 
-            //if (RegularVerticalSearch(invertedWord))
-            //{
-            //    exists = true;
-            //    direction = Directions.InvertedVertical;
-            //}
+            if (RegularVerticalSearch(word))
+            {
+                return new ValidationResult(word, true, Directions.Vertical);
+            }
 
-            //if (DiagonalSearch(word))
-            //{
-            //    exists = true;
-            //    direction = Directions.Diagonal;
-            //}
+            if (RegularVerticalSearch(invertedWord))
+            {
+                return new ValidationResult(word, true, Directions.InvertedVertical);
+            }
 
-            //if (InvertedDiagonalSearch(word))
-            //{
-            //    exists = true;
-            //    direction = Directions.Diagonal;
-            //}
+            if (DiagonalSearch(word))
+            {
+                return new ValidationResult(word, true, Directions.Diagonal);
+            }
 
-            //if (DiagonalSearch(invertedWord))
-            //{
-            //    exists = true;
-            //    direction = Directions.InvertedDiagonal;
-            //}
+            if (InvertedDiagonalSearch(word))
+            {
+                return new ValidationResult(word, true, Directions.Diagonal);
+            }
 
-            //if (InvertedDiagonalSearch(invertedWord))
-            //{
-            //    exists = true;
-            //    direction = Directions.InvertedDiagonal;
-            //}
+            if (DiagonalSearch(invertedWord))
+            {
+                return new ValidationResult(word, true, Directions.InvertedDiagonal);
+            }
+
+            if (InvertedDiagonalSearch(invertedWord))
+            {
+                return new ValidationResult(word, true, Directions.InvertedDiagonal);
+            }
 
             if (SpecialSearch(word))
             {
-                exists = true;
-                direction = Directions.Special;
+                return new ValidationResult(word, true, Directions.Special);
             }
 
             if (SpecialSearch(invertedWord))
             {
-                exists = true;
-                direction = Directions.InvertedSpecial;
+                return new ValidationResult(word, true, Directions.InvertedSpecial);
             }
-
-            result.WordExists = exists;
-            result.Direction = direction;
 
             return result;
         }
