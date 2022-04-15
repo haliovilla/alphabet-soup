@@ -18,14 +18,15 @@ export class RequestFormComponent implements OnInit {
   loading: boolean = false;
   collapse: boolean = false;
   results: ApiResult[] = [];
-  tableView: boolean = false;
+  tableView: boolean = true;
   tableSoup: any;
 
   constructor(private alphabetService: AlphabetService) { }
 
   ngOnInit(): void {
     this.createSoup();
-    //this.validateAllWords();
+    this.createTableSoup();
+    this.validateAllWords();
   }
 
   createSoup() {
