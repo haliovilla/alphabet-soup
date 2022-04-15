@@ -16,14 +16,16 @@ export class RequestFormComponent implements OnInit {
   size: number = sopa.length;
 
   loading: boolean = false;
-  collapse: boolean = true;
+  collapse: boolean = false;
   results: ApiResult[] = [];
+  tableView: boolean = false;
+  tableSoup: any;
 
   constructor(private alphabetService: AlphabetService) { }
 
   ngOnInit(): void {
     this.createSoup();
-    this.validateAllWords();
+    //this.validateAllWords();
   }
 
   createSoup() {
@@ -51,7 +53,8 @@ export class RequestFormComponent implements OnInit {
         this.loading = false;
       }, (err) => {
         console.log(err);
-        alert(JSON.stringify(err));
+        alert(err.error.ExceptionMessage);
+        this.loading = false;
       });
   }
 
@@ -68,7 +71,8 @@ export class RequestFormComponent implements OnInit {
         }
       }, (err) => {
         console.log(err);
-        alert(JSON.stringify(err));
+        alert(err.error.ExceptionMessage);
+        this.loading = false;
       });
   }
 
@@ -78,6 +82,11 @@ export class RequestFormComponent implements OnInit {
 
   switchCollapse() {
     this.collapse = !this.collapse;
+  }
+
+  switchView() {
+    this.tableView = !this.tableView;
+    this.createTableSoup();
   }
 
   validateAllWords() {
@@ -93,6 +102,19 @@ export class RequestFormComponent implements OnInit {
       this.validateWord(value);
     });
     this.loading = false;
+  }
+
+  createTableSoup() {
+    this.tableSoup = [];
+    let t = this.soup.split('\n');
+    let c = 0;
+    t.forEach(line => {
+      this.tableSoup[c] = [];
+      for (var i = 0; i < line.length; i++) {
+        this.tableSoup[c].push(line[i]);
+      }
+      c++;
+    });
   }
 
 }

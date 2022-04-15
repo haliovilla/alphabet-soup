@@ -1,13 +1,51 @@
 
 <div class="row">
+  <!-- loading -->
   <div class="col-md-6 col-sm-12 mx-auto text-center loading"
        *ngIf="loading">
     Validando...
   </div>
-  <div class="col-md-8 col-sm-12 mx-auto"
+  <!-- alphabet soupt & form -->
+  <div class="col-md-9 col-sm-12"
        *ngIf="!loading">
+
+    <div>
+      <button class="btn btn-primary"
+              (click)="switchView()">
+        Cambiar Vista
+      </button>
+    </div>
+
+    <div class="form-group" [hidden]="tableView">
+      <label for="AlphabetSoup">
+        Sopa de Letras
+      </label>
+      <textarea [(ngModel)]="soup"
+                class="form-control alphabet-soup"
+                cols="{{size}}" rows="{{size}}"
+                id="AlphabetSoup"
+                placeholder="Sopa de Letras"></textarea>
+    </div>
+
+    <div [hidden]="!tableView">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let line of tableSoup">
+              <td class="text-center"
+                  *ngFor="let chr of line">
+                {{ chr }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr />
+
     <div class="row">
-      <div class="col-md-6 col-sm-12">
+      <div class="col-md-4 col-sm-12">
         <div class="form-group">
           <label for="SoupSize">
             Tamaño de la Matríz
@@ -19,7 +57,7 @@
                  placeholder="Tamaño de la Matríz" />
         </div>
       </div>
-      <div class="col-md-6 col-sm-12">
+      <div class="col-md-4 col-sm-12">
         <div class="form-group">
           <label for="WordToFind">
             Palabra a Buscar
@@ -31,48 +69,37 @@
                  placeholder="Palabra a Buscar" />
         </div>
       </div>
+      <div class="col-md-4 col-sm-12">
+        <button class="btn btn-primary btn-lg validate-button"
+                (click)="validate()">
+          Validar
+        </button>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="AlphabetSoup">
-        Sopa de Letras
-      </label>
-      <textarea [(ngModel)]="soup"
-                class="form-control alphabet-soup"
-                cols="{{size}}" rows="{{size}}"
-                id="AlphabetSoup"
-                placeholder="Sopa de Letras"></textarea>
-    </div>
-
-    <hr />
-
-    <button class="btn btn-primary btn-lg validate-button"
-            (click)="validate()">
-      Validar
-    </button>
 
     <br />
     <hr />
     <br />
 
-    <button class="btn btn-secondary"
-            (click)="switchCollapse()">
-      Ver Resultados
-    </button>
+
+  </div>
+  <!-- Results -->
+  <div class="col-md-3 col-sm-12"
+       *ngIf="!loading">
     <div [ngClass]="{'collapse': collapse}">
-      <h2>Resultados</h2>
+      <h2 class="text-center">Resultados</h2>
       <hr />
       <ul class="list-group">
         <li class="list-group-item"
             *ngFor="let result of results">
           {{ result.Word }}
           &nbsp;
-          <span *ngIf="result.WordExists">SI</span>
-          <span *ngIf="!result.WordExists">NO</span>
-          &nbsp;
-          existe.
+          <span *ngIf="result.WordExists">
+            SI existe: {{ result.Direction }}
+          </span>
+          <span *ngIf="!result.WordExists">NO existe</span>
         </li>
       </ul>
     </div>
-
   </div>
 </div>
